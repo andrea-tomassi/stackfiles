@@ -1,0 +1,53 @@
+kafka:
+  environment:
+    - KAFKA_ADVERTISED_HOST_NAME=###PUT-DOCKER-HOST-IP-HERE###
+    - KAFKA_AUTO_CREATE_TOPICS_ENABLE=True
+    - KAFKA_LOG_CLEANUP_POLICY=delete
+  hostname: kafka
+  image: 'confluent/kafka:latest'
+  links:
+    - zookeeper
+  ports:
+    - '9092:9092'
+kafka-connectors:
+  environment:
+    - ENV=xxx
+  image: 'confluentinc/cp-kafka-connect:latest'
+  links:
+    - kafka
+    - zookeeper
+  ports:
+    - '1234:1234'
+kafka-rest:
+  environment:
+    - KAFKA_REST_HOST_NAME=kafka-rest
+    - 'KAFKA_REST_ZOOKEEPER_CONNECT=zookeeper:2181'
+  image: 'confluentinc/cp-kafka-rest:latest'
+  links:
+    - kafka
+    - schema-registry
+    - zookeeper
+  ports:
+    - '8082:8082'
+kafka-tools:
+  command: kafka-topics
+  entrypoint: /usr/bin/confluent-tools
+  image: 'confluent/tools:latest'
+  links:
+    - kafka
+    - zookeeper
+schema-registry:
+  environment:
+    - SCHEMA_REGISTRY_AVRO_COMPATIBILITY_LEVEL=none
+  hostname: schema-registry
+  image: 'confluent/schema-registry:latest'
+  links:
+    - kafka
+    - zookeeper
+  ports:
+    - '48081:8081'
+zookeeper:
+  hostname: zookeeper
+  image: 'confluent/zookeeper:latest'
+  ports:
+    - '2181:2181'
