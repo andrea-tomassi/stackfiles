@@ -1,0 +1,20 @@
+elasticsearch:
+  command: "elasticsearch -Des.cluster.name='graylog'"
+  image: 'elasticsearch:2'
+  ports:
+    - '9200:9200'
+    - '9300:9300'
+graylog:
+  environment:
+    - 'GRAYLOG_WEB_ENDPOINT_URI=http://10.10.100.248:9000/api'
+  image: 'graylog2/server:latest'
+  links:
+    - elasticsearch
+    - mongo
+  ports:
+    - '9000:9000'
+    - '12900:12900'
+mongo:
+  image: 'mongo:3'
+  ports:
+    - '27017:27017'
