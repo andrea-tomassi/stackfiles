@@ -1,23 +1,24 @@
 kafka:
   environment:
-    - KAFKA_ADVERTISED_HOST_NAME=###PUT-DOCKER-HOST-IP-HERE###
+    - KAFKA_ADVERTISED_HOST_NAME= ### PUT_YOUR_HOST_IP_HERE ###
+    - 'KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://:9092'
     - KAFKA_AUTO_CREATE_TOPICS_ENABLE=True
     - KAFKA_LOG_CLEANUP_POLICY=delete
+    - 'KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181'
   hostname: kafka
-  image: 'confluent/kafka:latest'
+  image: 'confluentinc/cp-kafka:latest'
   links:
     - zookeeper
   ports:
     - '9092:9092'
 kafka-connectors:
   environment:
-    - ENV=xxx
+    - 'CONNECT_BOOTSTRAP_SERVERS=kafka:9092'
+    - CONNECT_GROUP_ID=connect-cluster-A
   image: 'confluentinc/cp-kafka-connect:latest'
   links:
     - kafka
     - zookeeper
-  ports:
-    - '1234:1234'
 kafka-rest:
   environment:
     - KAFKA_REST_HOST_NAME=kafka-rest
@@ -29,25 +30,24 @@ kafka-rest:
     - zookeeper
   ports:
     - '8082:8082'
-kafka-tools:
-  command: kafka-topics
-  entrypoint: /usr/bin/confluent-tools
-  image: 'confluent/tools:latest'
-  links:
-    - kafka
-    - zookeeper
+
 schema-registry:
   environment:
     - SCHEMA_REGISTRY_AVRO_COMPATIBILITY_LEVEL=none
+    - SCHEMA_REGISTRY_HOST_NAME=localhost
+    - 'SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL=zookeeper:2181'
+    - 'SCHEMA_REGISTRY_LISTENERS=http://localhost:8081'
   hostname: schema-registry
-  image: 'confluent/schema-registry:latest'
+  image: 'confluentinc/cp-schema-registry:latest'
   links:
     - kafka
     - zookeeper
   ports:
     - '48081:8081'
 zookeeper:
+  environment:
+    - ZOOKEEPER_CLIENT_PORT=2181
   hostname: zookeeper
-  image: 'confluent/zookeeper:latest'
+  image: 'confluentinc/cp-zookeeper:latest'
   ports:
     - '2181:2181'
