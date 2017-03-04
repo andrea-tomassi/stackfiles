@@ -1,6 +1,8 @@
 # stackfiles
 Collection of stackfiles for Docker Cloud staks
 
+![](https://raw.githubusercontent.com/andrea-tomassi/stackfiles/master/DockerCloud.png "Docker Cloud")
+
 ## [kafka.yaml](https://github.com/andrea-tomassi/stackfiles/blob/master/kafka.yaml)
 Contains a full Kafka stack working out of the box.
 
