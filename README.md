@@ -17,4 +17,4 @@ This file will deploy a fully working single instance [Graylog server](https://w
 
 
 ## [elastic-kibana.yaml](https://github.com/andrea-tomassi/stackfiles/blob/master/elastic-kibana.yaml)
-This file will deploy the latest elasticsearch and a already linked kibana instance. Proper ports are exposed as well.
+This file will deploy the latest elasticsearch and kibana instance. Kibana uses elasticsearch as data source. Proper ports are exposed as well.
