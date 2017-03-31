@@ -14,3 +14,7 @@ Kafka Connectors service needs to be parametrized accordingly to your needs. Loo
 
 ## [graylog.yaml](https://github.com/andrea-tomassi/stackfiles/blob/master/graylog.yaml)
 This file will deploy a fully working single instance [Graylog server](https://www.graylog.org/), with mongoDB and elasticsearch instances. 
+
+
+## [elastic-kibana.yaml](https://github.com/andrea-tomassi/stackfiles/blob/master/elastic-kibana.yaml)
+This file will deploy the latest elasticsearch and a already linked kibana instance. Proper ports are exposed as well.
